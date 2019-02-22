@@ -146,7 +146,7 @@ sess.run(tf.global_variables_initializer())
 
 # %% We'll now train in minibatches and report accuracy, loss:
 iter_per_epoch = 100
-n_epochs = 10
+n_epochs = 200
 train_size = 10000
 
 indices = np.linspace(0, 10000 - 1, iter_per_epoch)
@@ -185,15 +185,16 @@ print("accuracy on test set : %f" %test_acc)
 
 # display 20 random original images in the test set
 np.random.seed = 99
-example_indices = np.random.randint(1, 1000, size=20)
+example_indices = np.random.randint(1, 1000, size=8)
+# example_indices = [75,100,125,150,175,375,400,420]
 
 prediction = tf.argmax(y_logits, 1)
 
 ith = 0
-plt.rcParams['figure.figsize'] = (16.0, 16.0)
-plt.subplots_adjust(wspace=0, hspace=.2)
+plt.rcParams['figure.figsize'] = (16.0, 8.0)
+plt.subplots_adjust(wspace=0, hspace=0)
 for index in example_indices:
-    plt.subplot(5, 4, ith + 1)
+    plt.subplot(2, 4, ith + 1)
 
     oriImg = mnist_cluttered['X_test'].reshape(1000, 40, 40)[index, ...]
     plt.imshow(oriImg)
@@ -210,12 +211,12 @@ plt.show()
 
 # now getting the transformed version of these images. it's h_trans (I hope it's this one)
 ith = 0
-plt.rcParams['figure.figsize'] = (16.0, 16.0)
-plt.subplots_adjust(wspace=0, hspace=.2)
+plt.rcParams['figure.figsize'] = (16.0, 8.0)
+plt.subplots_adjust(wspace=0, hspace=0)
 
 
 for index in example_indices:
-    plt.subplot(5, 4, ith + 1)
+    plt.subplot(2, 4, ith + 1)
 
     transformedImg = sess.run(h_trans, feed_dict={x: X_test[index].reshape((1, 1600)), keep_prob: 1.0}).reshape((40, 40))
     plt.imshow(transformedImg)
